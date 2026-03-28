@@ -1,0 +1,17 @@
+spring:
+  kafka:
+    bootstrap-servers: kakfa:9092
+    producer:
+      key-serializer: org.apache.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+  application:
+    name: video-service
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASS}
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true

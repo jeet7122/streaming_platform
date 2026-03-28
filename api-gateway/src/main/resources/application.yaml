@@ -6,6 +6,18 @@ spring:
           uri: http://localhost:8081
           predicates:
             - Path=/api/users/**
+        - id: video-service
+          uri: http://localhost:8082
+          predicates:
+              - Path=/api/video/**
+        - id: like-service
+          uri: http://localhost:8083
+          predicates:
+              - Path=/api/likes/**
+        - id: comment-service
+          uri: http://localhost:8084
+          predicates:
+              - Path=/api/comments/**
   application:
     name: api-gateway
 
