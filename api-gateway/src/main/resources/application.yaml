@@ -18,6 +18,10 @@ spring:
           uri: http://localhost:8084
           predicates:
               - Path=/api/comments/**
+        - id: upload-service
+          uri: http://localhost:8085
+          predicates:
+              - Path=/api/upload/**
   application:
     name: api-gateway
 

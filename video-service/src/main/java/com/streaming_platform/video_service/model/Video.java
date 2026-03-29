@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -13,7 +15,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @Table(name = "videos")
 public class Video {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -22,6 +23,7 @@ public class Video {
     private String userId;
     @Enumerated(value = EnumType.STRING)
     private Status status;
+    private String rawVideoUrl;
     private String manifestUrl;
-    private String createdAt;
+    private LocalDateTime createdAt;
 }

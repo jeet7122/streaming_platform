@@ -8,4 +8,5 @@ import lombok.Data;
 public class CreateVideoRequest {
     private String title;
     private String description;
+    private String rawVideoUrl;
 }

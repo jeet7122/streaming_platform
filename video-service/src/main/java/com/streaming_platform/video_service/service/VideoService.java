@@ -23,11 +23,13 @@ public class VideoService {
                 .title(req.getTitle())
                 .description(req.getDescription())
                 .userId(userId)
-                .status(Status.UPLOADING)
+                .status(Status.UPLOADED)
+                .rawVideoUrl(req.getRawVideoUrl())
+                .manifestUrl(null)
                 .build();
         repository.save(video);
 
-        producer.publish(new VideoUploadEvent(video.getId(), userId));
+        producer.publish(new VideoUploadEvent(video.getId(), userId, video.getRawVideoUrl()));
 
         return new VideoResponse(video.getId(), video.getTitle(), video.getStatus().toString());
     }

@@ -1,0 +1,13 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: upload-service
+
+video-service-url: http://localhost:8082/api/videos
+R2:
+  access-key: ${R2_ACCESS_KEY}
+  secret-key: ${R2_SECRET_KEY}
+  bucket: ${R2_BUCKET}
+  endpoint: ${R2_ENDPOINT}

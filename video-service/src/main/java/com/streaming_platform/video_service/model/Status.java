@@ -1,7 +1,8 @@
 package com.streaming_platform.video_service.model;
 
 public enum Status {
-    UPLOADING,
+    UPLOADED,
     PROCESSING,
-    READY
+    READY,
+    FAILED
 }

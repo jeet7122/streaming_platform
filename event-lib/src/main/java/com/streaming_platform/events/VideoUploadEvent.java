@@ -4,10 +4,20 @@ package com.streaming_platform.events;
 public class VideoUploadEvent {
     private String userId;
     private String videoId;
+    private String rawVideoUrl;
 
-    public VideoUploadEvent(String userId, String videoId) {
+    public VideoUploadEvent(String userId, String videoId, String rawVideoUrl) {
         this.userId = userId;
         this.videoId = videoId;
+        this.rawVideoUrl = rawVideoUrl;
+    }
+
+    public String getRawVideoUrl() {
+        return rawVideoUrl;
+    }
+
+    public void setRawVideoUrl(String rawVideoUrl) {
+        this.rawVideoUrl = rawVideoUrl;
     }
 
     public String getUserId() {

@@ -20,6 +20,8 @@
         <module>event-lib</module>
         <module>like-service</module>
         <module>comment-service</module>
+        <module>upload-service</module>
+        <module>processing-service</module>
     </modules>
 
     <!-- 🌍 Global Properties -->
