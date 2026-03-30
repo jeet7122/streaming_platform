@@ -19,8 +19,10 @@ public class VideoProcessingConsumer {
     private final ProcessedUploader uploader;
     private final VideoClient client;
 
-    @KafkaListener(topics = "video.uploaded")
+    @KafkaListener(topics = "video.uploaded", containerFactory = "kafkaListenerContainerFactory")
     public void handle(VideoUploadEvent e){
+
+        if (e.getRawVideoUrl() == null) throw new IllegalArgumentException("Invalid Event: Video URL is null");
         // 1. DOWNLOADING FILE FROM CLOUD
         Path inputFile = downloader.download(e.getRawVideoUrl());
 
