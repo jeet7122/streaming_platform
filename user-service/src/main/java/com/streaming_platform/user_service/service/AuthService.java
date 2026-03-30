@@ -20,7 +20,7 @@ public class AuthService {
 
     public void signup(SignupRequest request){
         String decodedPass = encoder.encode(request.getPassword());
-        User user = User.builder().email(request.getEmail()).password(decodedPass).build();
+        User user = User.builder().email(request.getEmail()).password(decodedPass).fullname(request.getFullname()).build();
         repository.save(user);
     }
 

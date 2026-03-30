@@ -17,11 +17,12 @@ public class VideoClient {
 
     @Value("${video-service-url}")
     private String videoServiceUrl;
+
     public void upload(String title, String description, String fileUrl, String userId){
         Map<String, String> body = new HashMap<>();
         body.put("title", title);
         body.put("description", description);
-        body.put("rawFileUrl", fileUrl);
+        body.put("rawVideoUrl", fileUrl);
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("X-USER-ID", userId);
@@ -29,4 +30,6 @@ public class VideoClient {
 
         restTemplate.postForEntity(videoServiceUrl, request, String.class);
     }
+
+
 }

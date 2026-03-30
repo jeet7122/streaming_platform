@@ -1,3 +1,26 @@
 spring:
   application:
     name: processing-service
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: video-processing-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+        spring.json.trusted.packages: "com.streaming_platform.*"
+
+
+R2:
+  bucket: ${R2_BUCKET}
+  access-key: ${R2_ACCESS_KEY}
+  secret-key: ${R2_SECRET_KEY}
+  endpoint: ${R2_ENDPOINT}
+
+video:
+  service:
+    uri: http://localhost:8082/api/videos/
+
+server:
+  port: 8086

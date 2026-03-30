@@ -42,6 +42,11 @@
             <version>2.25.26</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.streaming_platform</groupId>
+            <artifactId>event-lib</artifactId>
+            <version>1.0.0</version>
+        </dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

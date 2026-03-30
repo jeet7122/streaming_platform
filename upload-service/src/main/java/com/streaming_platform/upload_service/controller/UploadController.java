@@ -22,15 +22,16 @@ public class UploadController {
 
     @PostMapping
     public ResponseEntity<?> upload(
-            @RequestParam String title,
+            @RequestParam("title") String title,
             @RequestParam("file") MultipartFile file,
-            @RequestParam String description,
+            @RequestParam("description") String description,
             HttpServletRequest request
             ){
         String userId = request.getHeader("X-USER-ID");
         if (userId == null) return ResponseEntity.status(401).body("Unauthorized Request!");
 
         String fileKey = storageService.upload(file);
+        System.out.println("SENDING FILE URL: " + fileKey);
 
         videoClient.upload(title, description, fileKey, userId);
 

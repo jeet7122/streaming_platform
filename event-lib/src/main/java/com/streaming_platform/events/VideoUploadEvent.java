@@ -1,6 +1,7 @@
 package com.streaming_platform.events;
 
 
+
 public class VideoUploadEvent {
     private String userId;
     private String videoId;
@@ -10,6 +11,9 @@ public class VideoUploadEvent {
         this.userId = userId;
         this.videoId = videoId;
         this.rawVideoUrl = rawVideoUrl;
+    }
+
+    public VideoUploadEvent() {
     }
 
     public String getRawVideoUrl() {

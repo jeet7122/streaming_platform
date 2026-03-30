@@ -8,8 +8,11 @@ import com.streaming_platform.video_service.model.Status;
 import com.streaming_platform.video_service.model.Video;
 import com.streaming_platform.video_service.repository.VideoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -19,6 +22,7 @@ public class VideoService {
     private final VideoEventProducer producer;
 
     public VideoResponse publishVideo(CreateVideoRequest req, String userId){
+        System.out.println("REQUESTED URL: " + req.getRawVideoUrl());
         Video video = Video.builder()
                 .title(req.getTitle())
                 .description(req.getDescription())
@@ -32,6 +36,14 @@ public class VideoService {
         producer.publish(new VideoUploadEvent(video.getId(), userId, video.getRawVideoUrl()));
 
         return new VideoResponse(video.getId(), video.getTitle(), video.getStatus().toString());
+    }
+
+    public String markAsReady(String videoId, String manifestUrl){
+        Video existingVideo = repository.findById(videoId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Video with video ID: " + videoId + " not found in DB"));
+        existingVideo.setManifestUrl(manifestUrl);
+        existingVideo.setCreatedAt(LocalDateTime.now());
+        repository.save(existingVideo);
+        return "SAVED VIDEO WITH MANIFEST URL!";
     }
 
 

@@ -1,4 +1,4 @@
-package com.streaming_platform.upload_service.config;
+package com.streaming_platform.processing_service.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

@@ -30,8 +30,6 @@
         <spring.boot.version>3.2.5</spring.boot.version>
         <spring.cloud.version>2023.0.1</spring.cloud.version>
         <jjwt-api.version>0.11.5</jjwt-api.version>
-        <jjwt-api.impl>0.11.5</jjwt-api.impl>
-        <jjwt-api.jackson>0.11.5</jjwt-api.jackson>
     </properties>
 
     <!-- 📦 Dependency Management -->
@@ -54,6 +52,25 @@
                 <version>${spring.cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <!--  JWT MANAGEMENT  -->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-api</artifactId>
+                <version>${jjwt-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-impl</artifactId>
+                <version>${jjwt-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-jackson</artifactId>
+                <version>${jjwt-api.version}</version>
             </dependency>
 
         </dependencies>
