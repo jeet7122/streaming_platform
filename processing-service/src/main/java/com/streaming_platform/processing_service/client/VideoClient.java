@@ -1,5 +1,6 @@
 package com.streaming_platform.processing_service.client;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@Slf4j
 public class VideoClient {
 
     @Autowired
@@ -21,6 +23,7 @@ public class VideoClient {
         String url = baseUri + videoId + "/complete";
         Map<String, String> body = new HashMap<>();
         body.put("manifestUrl", manifestUrl);
+        log.info("Sending request to url: {}, with body: {}", url, body);
         restTemplate.put(url, body);
     }
 }

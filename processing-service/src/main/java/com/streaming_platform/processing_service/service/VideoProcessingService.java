@@ -27,13 +27,28 @@ public class VideoProcessingService {
             String command = String.format(
                     "ffmpeg -y -i \"%s\" " +
                             "-preset fast -g 48 -sc_threshold 0 " +
-                            "-map 0:v:0 -map 0:v:0 -map 0:v:0 " +
-                            "-s:v:0 640x360 -b:v:0 800k " +
-                            "-s:v:1 842x480 -b:v:1 1400k " +
-                            "-s:v:2 1280x720 -b:v:2 2800k " +
-                            "-f hls -hls_time 6 -hls_playlist_type vod " +
-                            "-hls_segment_filename \"%s/segment_%%03d.ts\" " +
-                            "\"%s/index.m3u8\"",
+
+                            "-map 0:v:0 -map 0:a:0 " +
+                            "-map 0:v:0 -map 0:a:0 " +
+                            "-map 0:v:0 -map 0:a:0 " +
+
+                            "-filter:v:0 scale=640:360 " +
+                            "-filter:v:1 scale=842:480 " +
+                            "-filter:v:2 scale=1280:720 " +
+
+                            "-b:v:0 800k -b:v:1 1400k -b:v:2 2800k " +
+
+                            "-f hls " +
+                            "-hls_time 6 " +
+                            "-hls_playlist_type vod " +
+
+                            "-var_stream_map \"v:0,a:0 v:1,a:1 v:2,a:2\" " +
+
+                            "-master_pl_name master.m3u8 " +
+
+                            "-hls_segment_filename \"%s/%%v/segment_%%03d.ts\" " +
+
+                            "\"%s/%%v/index.m3u8\"",
                     inputPath,
                     outputPath,
                     outputPath
