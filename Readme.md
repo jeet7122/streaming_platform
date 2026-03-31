@@ -125,6 +125,13 @@ Client streams video using HLS
 
 ## 📦 Features
 
+### 🎥 Streaming & Playback
+- Master playlist (`master.m3u8`) for adaptive bitrate streaming
+- Frontend video player using HLS.js
+- Video buffering optimization
+
+---
+
 ### 🔐 Authentication
 - User registration and login
 - JWT-based authentication
@@ -143,6 +150,13 @@ Client streams video using HLS
 - Event-driven architecture using Kafka
 - Decoupled upload and processing pipeline
 - Fault-tolerant video processing workflow
+
+---
+
+
+### 🔐 Security & Reliability
+- Retry mechanisms for failed processing jobs
+- Dead-letter queue (Kafka) for failed events
 
 ---
 
@@ -180,13 +194,6 @@ The following features and improvements are planned to evolve the platform furth
 
 ---
 
-### 🎥 Streaming & Playback
-- [ ] Master playlist (`master.m3u8`) for adaptive bitrate streaming
-- [ ] Frontend video player using HLS.js
-- [ ] Video buffering optimization
-
----
-
 ### 🖼️ Media Enhancements
 - [ ] Thumbnail generation using FFmpeg
 - [ ] Preview clips (short snippets)
@@ -204,8 +211,6 @@ The following features and improvements are planned to evolve the platform furth
 
 ### 🔐 Security & Reliability
 - [ ] Rate limiting at API Gateway
-- [ ] Retry mechanisms for failed processing jobs
-- [ ] Dead-letter queue (Kafka) for failed events
 
 ---
 
