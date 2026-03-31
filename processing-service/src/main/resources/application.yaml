@@ -17,10 +17,11 @@ R2:
   access-key: ${R2_ACCESS_KEY}
   secret-key: ${R2_SECRET_KEY}
   endpoint: ${R2_ENDPOINT}
+  public-endpoint: ${R2_PUB_ENDPOINT}
 
 video:
   service:
-    uri: http://localhost:8082/api/videos/
+    uri: http://localhost:8082/api/videos/internal/
 
 server:
   port: 8086

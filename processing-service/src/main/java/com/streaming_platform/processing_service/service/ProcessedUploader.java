@@ -18,35 +18,28 @@ public class ProcessedUploader {
 
     private final S3Client s3Client;
     public void uploadFolder(String folderPath, String videoId) {
-
         File folder = new File(folderPath);
+        uploadRecursive(folder, videoId, "");
+    }
 
-        File[] files = folder.listFiles();
+    private void uploadRecursive(File file, String videoId, String prefix) {
 
-        if (files == null || files.length == 0) {
-            throw new RuntimeException("Folder is empty: " + folderPath);
-        }
-
-        for (File f : files) {
-
-            System.out.println("Uploading file: " + f.getName()); // 🔥
-
-            String key = "processed/" + videoId + "/" + f.getName();
-
-            try {
-                s3Client.putObject(
-                        PutObjectRequest.builder()
-                                .bucket(bucket)
-                                .key(key)
-                                .build(),
-                        RequestBody.fromFile(f)
-                );
-
-                System.out.println("Uploaded: " + key); // 🔥
-
-            } catch (Exception e) {
-                e.printStackTrace(); // 🔥 VERY IMPORTANT
+        if (file.isDirectory()) {
+            for (File f : file.listFiles()) {
+                uploadRecursive(f, videoId, prefix + file.getName() + "/");
             }
+        } else {
+            String key = "processed/" + videoId + "/" + prefix + file.getName();
+
+            System.out.println("Uploading: " + key);
+
+            s3Client.putObject(
+                    PutObjectRequest.builder()
+                            .bucket(bucket)
+                            .key(key)
+                            .build(),
+                    RequestBody.fromFile(file)
+            );
         }
     }
 }

@@ -6,6 +6,7 @@ import com.streaming_platform.processing_service.service.ProcessedUploader;
 import com.streaming_platform.processing_service.service.RecoveryService;
 import com.streaming_platform.processing_service.service.VideoProcessingService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
@@ -19,8 +20,12 @@ public class VideoProcessingConsumer {
     private final ProcessedUploader uploader;
     private final VideoClient client;
 
+    @Value("${R2.public-endpoint}")
+    private String r2BaseUrl;
+
     @KafkaListener(topics = "video.uploaded", containerFactory = "kafkaListenerContainerFactory")
-    public void handle(VideoUploadEvent e){
+    public void handle(VideoUploadEvent e) throws InterruptedException {
+
 
         if (e.getRawVideoUrl() == null) throw new IllegalArgumentException("Invalid Event: Video URL is null");
         // 1. DOWNLOADING FILE FROM CLOUD
@@ -34,7 +39,8 @@ public class VideoProcessingConsumer {
         uploader.uploadFolder(outputDIR, e.getVideoId());
 
         // 4. UPDATE VIDEO-SERVICE
-        String manifestURL = "processed/" + e.getVideoId() + "/index.m3u8";
+        String manifestURL = r2BaseUrl + "/processed/" + e.getVideoId() + "/" + e.getVideoId() + "/master.m3u8";
+        Thread.sleep(2000);
         client.updateVideo(e.getVideoId(), manifestURL);
 
 
