@@ -23,7 +23,7 @@ public class VideoProcessingService {
             String inputPath = inputFile.toAbsolutePath().toString().replace("\\", "/");
             String outputPath = outputDir.replace("\\", "/");
 
-            // ✅ FFmpeg command
+            // ✅ FFmpeg command updated to Master
             String command = String.format(
                     "ffmpeg -y -i \"%s\" " +
                             "-preset fast -g 48 -sc_threshold 0 " +
