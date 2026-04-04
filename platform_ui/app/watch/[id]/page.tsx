@@ -1,5 +1,5 @@
 import { getVideoById } from "@/lib/api";
-import VideoPlayer from "@/components/video-player";
+import VideoPlayer from "@/components/video-player/video-player";
 
 export default async function WatchPage(props: {params: Promise<{id: string}>}) {
     const {id} = await props.params;

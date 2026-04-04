@@ -1,5 +1,5 @@
 import { getVideos } from "@/lib/api";
-import VideoCard from "@/components/video-card";
+import VideoCard from "@/components/video-player/video-card";
 import {Video} from "@/types/video";
 
 export default async function Home() {
