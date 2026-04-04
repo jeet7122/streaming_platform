@@ -12,6 +12,7 @@ type AuthFormProps = {
 
 export function AuthForm({ type }: AuthFormProps) {
     const router = useRouter();
+    const apiBase = process.env.NEXT_PUBLIC_AUTH_API + "/" + type;
 
     const [form, setForm] = useState({
         name: "",
@@ -30,7 +31,7 @@ export function AuthForm({ type }: AuthFormProps) {
 
         try {
             const res = await fetch(
-                `http://localhost:8080/api/auth/${type}`,
+                apiBase,
                 {
                     method: "POST",
                     headers: {

@@ -52,9 +52,11 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
 
         String path = exchange.getRequest().getURI().getPath();
 
+        log.info("Path: {}", path);
         if (isPublicPath(path)) {
             return chain.filter(exchange);
         }
+        if (path.contains("/auth")) return chain.filter(exchange);
 
         String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 
