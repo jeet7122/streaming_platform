@@ -6,6 +6,7 @@
         <groupId>com.streaming_platform</groupId>
         <artifactId>streaming-platform</artifactId>
         <version>1.0.0</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>video-service</artifactId>
     <version>1.0.0</version>
