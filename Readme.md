@@ -57,6 +57,7 @@ The platform is built using a microservices architecture where each service is r
     - Generates HLS (m3u8 + .ts segments)
     - Uploads processed files back to R2
     - Updates video status
+    - Handles Garbage Collection
 
 - **Like Service**
     - Handles like/unlike functionality
