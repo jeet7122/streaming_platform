@@ -8,11 +8,105 @@ services:
 
   kafka:
     image: confluentinc/cp-kafka:7.5.0
+    depends_on:
+      - zookeeper
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     ports:
       - "9092:9092"
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - user-service
+      - video-service
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+
+  user-service:
+    build:
+      context: .
+      dockerfile: user-service/Dockerfile
+    container_name: user-service
+    ports:
+      - "8081:8081"
+    environment:
+      DB_URL: ${DB_URL}
+      DB_PASS: ${DB_PASS}
+      DB_USER: ${DB_USER}
+      JWT_SECRET: ${JWT_SECRET}
+
+  video-service:
+    build:
+      context: .
+      dockerfile: video-service/Dockerfile
+    container_name: video-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - kafka
+    environment:
+      DB_URl: ${DB_URL}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+
+  like-service:
+    build:
+      context: .
+      dockerfile: like-service/Dockerfile
+    container_name: like-service
+    ports:
+      - "8083:8083"
+    environment:
+      DB_URL: ${DB_URL}
+      DB_PASS: ${DB_PASS}
+      DB_USER: ${DB_USER}
+
+  comment-service:
+    build:
+      context: .
+      dockerfile: comment-service/Dockerfile
+    container_name: comment-service
+    ports:
+      - "8084:8084"
+    environment:
+      DB_URL: ${DB_URL}
+      DB_PASS: ${DB_PASS}
+      DB_USER: ${DB_USER}
+
+  upload-service:
+    build:
+      context: .
+      dockerfile: upload-service/Dockerfile
+    container_name: upload-service
+    ports:
+      - "8085:8085"
+    environment:
+      R2_BUCKET: ${R2_BUCKET}
+      R2_ACCESS_KEY: ${R2_ACCESS_KEY}
+      R2_SECRET_KEY: ${R2_SECRET_KEY}
+      R2_ENDPOINT: ${R2_ENDPOINT}
+
+  processing-service:
+    build:
+      context: .
+      dockerfile: processing-service/Dockerfile
+    container_name: processing-service
+    ports:
+      - "8086:8086"
+    depends_on:
+      - kafka
+    environment:
+      R2_BUCKET: ${R2_BUCKET}
+      R2_ACCESS_KEY: ${R2_ACCESS_KEY}
+      R2_SECRET_KEY: ${R2_SECRET_KEY}
+      R2_PUB_ENDPOINT: ${R2_PUB_ENDPOINT}

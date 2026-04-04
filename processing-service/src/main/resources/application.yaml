@@ -2,7 +2,7 @@ spring:
   application:
     name: processing-service
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: kafka:9092
     consumer:
       group-id: video-processing-group
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -21,7 +21,7 @@ R2:
 
 video:
   service:
-    uri: http://localhost:8082/api/videos/internal/
+    uri: ${CLIENT_URI_PROCESSING}
 
 server:
   port: 8086
