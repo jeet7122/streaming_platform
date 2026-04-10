@@ -107,7 +107,7 @@ public class VideoService {
      * @return confirmation message
      * @throws ResponseStatusException if video is not found
      */
-    public String markAsReady(String videoId, String manifestUrl) {
+    public String markAsReady(String videoId, String manifestUrl, String thumbnailUrl) {
 
         // Fetch existing video or throw 404 if not found
         Video existingVideo = repository.findById(videoId)
@@ -118,6 +118,7 @@ public class VideoService {
 
         // Update processed video details
         existingVideo.setManifestUrl(manifestUrl);
+        existingVideo.setThumbnailUrl(thumbnailUrl);
         existingVideo.setStatus(Status.READY);
         existingVideo.setCreatedAt(LocalDateTime.now()); // Update timestamp
 

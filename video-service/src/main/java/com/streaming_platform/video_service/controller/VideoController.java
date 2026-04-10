@@ -109,9 +109,10 @@ public class VideoController {
 
         // Extract manifest URL from request body
         String manifestUrl = body.get("manifestUrl");
+        String thumbnailUrl = body.get("thumbnailUrl");
 
         // Update video status and manifest URL
-        String response = videoService.markAsReady(id, manifestUrl);
+        String response = videoService.markAsReady(id, manifestUrl, thumbnailUrl);
 
         return ResponseEntity.ok(response);
     }

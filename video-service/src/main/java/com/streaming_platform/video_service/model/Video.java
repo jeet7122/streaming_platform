@@ -85,4 +85,10 @@ public class Video {
      * Timestamp indicating when the video was created.
      */
     private LocalDateTime createdAt;
+
+
+    /**
+     * URL Pointing towards Thumbnail Image of Video
+     */
+    private String thumbnailUrl;
 }

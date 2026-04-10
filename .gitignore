@@ -2,3 +2,5 @@
 .env*
 output
 temp
+target
+node_modules

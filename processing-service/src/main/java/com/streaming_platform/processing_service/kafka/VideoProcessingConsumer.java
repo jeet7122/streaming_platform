@@ -43,7 +43,9 @@ public class VideoProcessingConsumer {
 
             // UPDATE DATABASE
             String manifestUrl = r2BaseUrl + "/processed/" + e.getVideoId() + "/" + e.getVideoId() + "/master.m3u8";
-            client.updateVideo(e.getVideoId(), manifestUrl);
+            String thumbnailUrl = r2BaseUrl + "/processed/" + e.getVideoId() + "/" + e.getVideoId() + "/thumb.jpg";
+            client.updateVideo(e.getVideoId(), manifestUrl, thumbnailUrl);
+
 
             // DELETE RAW VIDEO FILE FROM CLOUD STORAGE
             gcs.deleteFromCloudStorage(e.getRawVideoUrl());

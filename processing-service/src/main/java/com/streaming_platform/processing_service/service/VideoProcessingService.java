@@ -26,34 +26,43 @@ public class VideoProcessingService {
             // ✅ FFmpeg command updated to Master
             String command = String.format(
                     "ffmpeg -y -i \"%s\" " +
+
                             "-preset fast -g 48 -sc_threshold 0 " +
 
-                            "-map 0:v:0 -map 0:a:0 " +
-                            "-map 0:v:0 -map 0:a:0 " +
-                            "-map 0:v:0 -map 0:a:0 " +
+                            // ✅ Split video into 4 streams (3 HLS + 1 thumbnail)
+                            "-filter_complex \"[0:v]split=4[v1][v2][v3][vthumb]; " +
+                            "[v1]scale=640:360[v1out]; " +
+                            "[v2]scale=842:480[v2out]; " +
+                            "[v3]scale=1280:720[v3out]; " +
+                            "[vthumb]thumbnail,scale=320:180[vthout]\" " +
 
-                            "-filter:v:0 scale=640:360 " +
-                            "-filter:v:1 scale=842:480 " +
-                            "-filter:v:2 scale=1280:720 " +
+                            // ✅ Map HLS streams
+                            "-map \"[v1out]\" -map 0:a:0 " +
+                            "-map \"[v2out]\" -map 0:a:0 " +
+                            "-map \"[v3out]\" -map 0:a:0 " +
 
+                            // ✅ Bitrates
                             "-b:v:0 800k -b:v:1 1400k -b:v:2 2800k " +
 
+                            // ✅ HLS config
                             "-f hls " +
                             "-hls_time 6 " +
                             "-hls_playlist_type vod " +
 
                             "-var_stream_map \"v:0,a:0 v:1,a:1 v:2,a:2\" " +
-
                             "-master_pl_name master.m3u8 " +
 
                             "-hls_segment_filename \"%s/%%v/segment_%%03d.ts\" " +
+                            "\"%s/%%v/index.m3u8\" " +
 
-                            "\"%s/%%v/index.m3u8\"",
+                            // ✅ Thumbnail output (IMPORTANT: separate output)
+                            "-map \"[vthout]\" -frames:v 1 \"%s/thumb.jpg\"",
+
                     inputPath,
+                    outputPath,
                     outputPath,
                     outputPath
             );
-
             System.out.println("🚀 FFMPEG COMMAND:");
             System.out.println(command);
 
