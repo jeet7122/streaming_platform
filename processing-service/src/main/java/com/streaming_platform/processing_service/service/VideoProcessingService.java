@@ -57,8 +57,15 @@ public class VideoProcessingService {
             System.out.println("🚀 FFMPEG COMMAND:");
             System.out.println(command);
 
+            // CHECK FOR HOST OS
+            String os = System.getProperty("os.name").toLowerCase();
+            ProcessBuilder builder;
+            if (os.contains("win")){
+                builder = new ProcessBuilder("cmd.exe", "/c", command);
+            }else {
+                builder = new ProcessBuilder("sh", "-c", command);
+            }
             // ✅ Proper process builder
-            ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", command);
             builder.redirectErrorStream(true);
 
             Process process = builder.start();
