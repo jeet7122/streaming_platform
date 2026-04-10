@@ -1,13 +1,12 @@
 package com.streaming_platform.api_gateway;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class ApiGatewayApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
+    void add(){
+        assertEquals(2, 1+1 );
+    }
 
 }

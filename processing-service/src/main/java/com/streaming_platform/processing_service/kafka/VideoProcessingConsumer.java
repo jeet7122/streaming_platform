@@ -14,10 +14,12 @@ import org.springframework.stereotype.Component;
 
 import java.nio.file.Path;
 
-@Component
 @RequiredArgsConstructor
+@Component
 @Slf4j
 public class VideoProcessingConsumer {
+
+
     private final RecoveryService downloader;
     private final VideoProcessingService videoProcessingService;
     private final ProcessedUploader uploader;
