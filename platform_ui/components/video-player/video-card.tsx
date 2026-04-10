@@ -14,7 +14,7 @@ export default function VideoCard({ video }: { video: Video }) {
         >
             <CardContent className="p-3">
                 {/* Thumbnail placeholder */}
-                <div className="w-full h-40 bg-gray-200 rounded-md mb-2" />
+                <img src={video.thumbnailUrl} alt="thubmnail image" className="w-full h-40 bg-gray-200 rounded-md mb-2" />
 
                 <h3 className="font-semibold text-sm">{video.title}</h3>
                 <p className="text-xs text-gray-500 line-clamp-2">

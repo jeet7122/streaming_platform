@@ -6,5 +6,6 @@ export interface Video {
     status: "UPLOADED" | "PROCESSING" | "READY" | "FAILED";
     rawVideoUrl?: string;
     manifestUrl?: string;
+    thumbnailUrl?: string;
     createdAt: string;
 }
