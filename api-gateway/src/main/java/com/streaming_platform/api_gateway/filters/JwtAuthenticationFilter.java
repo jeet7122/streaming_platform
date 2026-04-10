@@ -20,6 +20,8 @@ import reactor.core.publisher.Mono;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+// @TODO: FIX CORS ISSUE
+
 /**
  * Global JWT authentication filter for API Gateway.
  *
@@ -47,16 +49,25 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
             "/actuator"
     );
 
+
+
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
         String path = exchange.getRequest().getURI().getPath();
+        String method = exchange.getRequest().getMethod().name();
 
-        log.info("Path: {}", path);
+        log.info("Path: {}, Method: {}", path, method);
+
+        // ✅ 1. ALWAYS allow preflight
+        if ("OPTIONS".equalsIgnoreCase(method)) {
+            return chain.filter(exchange);
+        }
+
+        // ✅ 2. Skip public endpoints properly
         if (isPublicPath(path)) {
             return chain.filter(exchange);
         }
-        if (path.contains("/auth")) return chain.filter(exchange);
 
         String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 
@@ -67,7 +78,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
         String token = authHeader.substring(7);
 
         try {
-            Claims claims = jwtUtil.getClaims(token); // parse once
+            Claims claims = jwtUtil.getClaims(token);
             String userId = claims.getSubject();
 
             ServerHttpRequest modifiedRequest = exchange.getRequest()
@@ -82,7 +93,6 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
             return unauthorized(exchange, "Invalid or expired token");
         }
     }
-
     /**
      * Checks if the request path is public.
      */

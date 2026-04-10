@@ -9,9 +9,16 @@ export default function UploadDropzone({ onFileSelect }: any) {
     };
 
     return (
-        <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-600 rounded-xl h-64 cursor-pointer hover:border-white transition">
-            <UploadCloud size={40} />
-            <p className="mt-4 text-gray-400">Drag & drop video or click to upload</p>
+        <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-700 rounded-2xl h-72 cursor-pointer hover:bg-white/5 transition">
+            <UploadCloud size={48} className="text-gray-400" />
+
+            <p className="mt-4 text-gray-300 font-medium">
+                Drag & drop video
+            </p>
+
+            <p className="text-sm text-gray-500">
+                or click to browse files
+            </p>
 
             <input
                 type="file"
