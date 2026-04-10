@@ -1,0 +1,5 @@
+com\streaming_platform\upload_service\service\StorageService.class
+com\streaming_platform\upload_service\client\VideoClient.class
+com\streaming_platform\upload_service\UploadServiceApplication.class
+com\streaming_platform\upload_service\controller\UploadController.class
+com\streaming_platform\upload_service\config\R2Config.class

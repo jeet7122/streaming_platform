@@ -4,6 +4,7 @@ import com.streaming_platform.upload_service.client.VideoClient;
 import com.streaming_platform.upload_service.service.StorageService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +36,7 @@ public class UploadController {
     /**
      * Service responsible for storing uploaded files (e.g., S3/R2).
      */
+    @Autowired
     private final StorageService storageService;
 
     /**

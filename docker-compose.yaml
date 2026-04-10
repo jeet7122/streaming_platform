@@ -1,4 +1,17 @@
 services:
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_DB: streaming_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
     environment:
@@ -21,8 +34,8 @@ services:
 
   api-gateway:
     build:
-      context: .
-      dockerfile: api-gateway/Dockerfile
+      context: ./api-gateway
+      dockerfile: Dockerfile
     container_name: api-gateway
     ports:
       - "8080:8080"
@@ -34,8 +47,8 @@ services:
 
   user-service:
     build:
-      context: .
-      dockerfile: user-service/Dockerfile
+      context: ./user-service
+      dockerfile: Dockerfile
     container_name: user-service
     ports:
       - "8081:8081"
@@ -47,22 +60,22 @@ services:
 
   video-service:
     build:
-      context: .
-      dockerfile: video-service/Dockerfile
+      context: ./video-service
+      dockerfile: Dockerfile
     container_name: video-service
     ports:
       - "8082:8082"
     depends_on:
       - kafka
     environment:
-      DB_URl: ${DB_URL}
+      DB_URL: ${DB_URL}
       DB_USER: ${DB_USER}
       DB_PASS: ${DB_PASS}
 
   like-service:
     build:
-      context: .
-      dockerfile: like-service/Dockerfile
+      context: ./like-service
+      dockerfile: Dockerfile
     container_name: like-service
     ports:
       - "8083:8083"
@@ -73,8 +86,8 @@ services:
 
   comment-service:
     build:
-      context: .
-      dockerfile: comment-service/Dockerfile
+      context: ./comment-service
+      dockerfile: Dockerfile
     container_name: comment-service
     ports:
       - "8084:8084"
@@ -85,8 +98,8 @@ services:
 
   upload-service:
     build:
-      context: .
-      dockerfile: upload-service/Dockerfile
+      context: ./upload-service
+      dockerfile: Dockerfile
     container_name: upload-service
     ports:
       - "8085:8085"
@@ -95,11 +108,12 @@ services:
       R2_ACCESS_KEY: ${R2_ACCESS_KEY}
       R2_SECRET_KEY: ${R2_SECRET_KEY}
       R2_ENDPOINT: ${R2_ENDPOINT}
+      CLIENT_URI_UPLOAD: ${CLIENT_URI_UPLOAD}
 
   processing-service:
     build:
-      context: .
-      dockerfile: processing-service/Dockerfile
+      context: ./processing-service
+      dockerfile: Dockerfile
     container_name: processing-service
     ports:
       - "8086:8086"
@@ -110,3 +124,8 @@ services:
       R2_ACCESS_KEY: ${R2_ACCESS_KEY}
       R2_SECRET_KEY: ${R2_SECRET_KEY}
       R2_PUB_ENDPOINT: ${R2_PUB_ENDPOINT}
+      R2_ENDPOINT: ${R2_ENDPOINT}
+      CLIENT_URI_PROCESSING: ${CLIENT_URI_PROCESSING}
+
+volumes:
+  pgdata:
