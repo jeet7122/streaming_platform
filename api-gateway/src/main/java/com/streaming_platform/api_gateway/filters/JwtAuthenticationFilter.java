@@ -20,7 +20,6 @@ import reactor.core.publisher.Mono;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-// @TODO: FIX CORS ISSUE
 
 /**
  * Global JWT authentication filter for API Gateway.
@@ -43,7 +42,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
     private final JwtUtil jwtUtil;
 
     private static final List<String> PUBLIC_PATHS = List.of(
-            "/auth/",
+            "/auth",
             "/videos",
             "/health",
             "/actuator"
@@ -63,6 +62,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
         if ("OPTIONS".equalsIgnoreCase(method)) {
             return chain.filter(exchange);
         }
+        if (path.contains("/auth/signup") || path.contains("/auth/login")) return chain.filter(exchange);
 
         // ✅ 2. Skip public endpoints properly
         if (isPublicPath(path)) {

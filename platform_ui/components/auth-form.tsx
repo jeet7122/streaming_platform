@@ -12,45 +12,60 @@ type AuthFormProps = {
 
 export function AuthForm({ type }: AuthFormProps) {
     const router = useRouter();
-    const apiBase = process.env.NEXT_PUBLIC_AUTH_API + "/" + type;
+
+    const apiBase = `${process.env.NEXT_PUBLIC_AUTH_API}/${type}`;
 
     const [form, setForm] = useState({
-        name: "",
+        fullname: "",
         email: "",
         password: "",
     });
 
     const [loading, setLoading] = useState(false);
 
-    const handleChange = (e: any) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setForm((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+        }));
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault(); // 🔥 prevents unwanted GET
+
+        if (loading) return;
+
         setLoading(true);
 
         try {
-            const res = await fetch(
-                apiBase,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(form),
-                }
-            );
+            console.log("API URL:", apiBase); // debug
+
+            const res = await fetch(apiBase, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(form),
+            });
+
+            // 🔥 handle non-200 responses properly
+            if (!res.ok) {
+                const text = await res.text();
+                throw new Error(text || "Request failed");
+            }
 
             const data = await res.json();
 
-            // store JWT
+            if (!data?.token) {
+                throw new Error("Invalid response from server");
+            }
+
             localStorage.setItem("token", data.token);
 
-            // redirect to homepage
             router.push("/");
-        } catch (err) {
-            console.error(err);
-            alert("Something went wrong");
+        } catch (err: any) {
+            console.error("Auth error:", err);
+            alert(err.message || "Something went wrong");
         } finally {
             setLoading(false);
         }
@@ -62,12 +77,14 @@ export function AuthForm({ type }: AuthFormProps) {
                 {type === "login" ? "Login" : "Create Account"}
             </h2>
 
-            <div className="space-y-4">
+            {/* ✅ FORM WRAPPER (important) */}
+            <form onSubmit={handleSubmit} className="space-y-4">
                 {type === "signup" && (
                     <Input
-                        name="name"
+                        name="fullname"
                         placeholder="Full Name"
                         onChange={handleChange}
+                        required
                     />
                 )}
 
@@ -76,6 +93,7 @@ export function AuthForm({ type }: AuthFormProps) {
                     placeholder="Email"
                     type="email"
                     onChange={handleChange}
+                    required
                 />
 
                 <Input
@@ -83,11 +101,12 @@ export function AuthForm({ type }: AuthFormProps) {
                     placeholder="Password"
                     type="password"
                     onChange={handleChange}
+                    required
                 />
 
                 <Button
+                    type="submit"
                     className="w-full"
-                    onClick={handleSubmit}
                     disabled={loading}
                 >
                     {loading
@@ -96,7 +115,7 @@ export function AuthForm({ type }: AuthFormProps) {
                             ? "Login"
                             : "Sign Up"}
                 </Button>
-            </div>
+            </form>
 
             <p className="text-sm text-center mt-4">
                 {type === "login" ? (

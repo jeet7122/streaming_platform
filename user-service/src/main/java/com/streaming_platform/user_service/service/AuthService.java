@@ -18,10 +18,11 @@ public class AuthService {
     private final JwtUtil jwtUtil;
     private final PasswordEncoder encoder;
 
-    public void signup(SignupRequest request){
+    public String signup(SignupRequest request){
         String decodedPass = encoder.encode(request.getPassword());
         User user = User.builder().email(request.getEmail()).password(decodedPass).fullname(request.getFullname()).build();
         repository.save(user);
+        return jwtUtil.generateToken(user.getId().toString());
     }
 
     public String login(LoginRequest request){

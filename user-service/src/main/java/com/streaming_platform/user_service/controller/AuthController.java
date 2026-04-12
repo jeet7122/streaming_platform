@@ -16,9 +16,9 @@ public class AuthController {
     private final AuthService service;
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody SignupRequest req){
-        service.signup(req);
-        return ResponseEntity.ok("User Created Successfully");
+    public ResponseEntity<AuthResponse> signup(@RequestBody SignupRequest req){
+        String token = service.signup(req);
+        return ResponseEntity.ok(new AuthResponse(token));
     }
 
     @PostMapping("/login")
