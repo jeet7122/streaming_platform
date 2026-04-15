@@ -12,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity()
+@Entity
 @Table(name = "users")
 public class User {
 
@@ -22,4 +22,6 @@ public class User {
     private String fullname;
     private String email;
     private String password;
+    @Column(name = "refresh_token")
+    private String refreshToken;
 }

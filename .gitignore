@@ -1,5 +1,6 @@
 .idea
 .env*
+!.env.example
 output
 temp
 target

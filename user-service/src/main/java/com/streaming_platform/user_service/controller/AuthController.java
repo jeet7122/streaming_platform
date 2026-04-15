@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/users/auth")
 @RequiredArgsConstructor
@@ -17,15 +19,18 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> signup(@RequestBody SignupRequest req){
-        String token = service.signup(req);
-        return ResponseEntity.ok(new AuthResponse(token));
+        return ResponseEntity.ok(service.signup(req));
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest req){
-        String token = service.login(req);
-        return ResponseEntity.ok(new AuthResponse(token));
+        return ResponseEntity.ok(service.login(req));
     }
 
+    @PostMapping("/refresh")
+    public ResponseEntity<AuthResponse> refresh(@RequestBody Map<String, String> body){
+        String refreshToken = body.get("refreshToken");
+        return ResponseEntity.ok(service.refresh(refreshToken));
+    }
 
 }
