@@ -1,3 +1,5 @@
+# Starter Script for execution
+# Command to use - docker compose up --build
 services:
 
   postgres:
