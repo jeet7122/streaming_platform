@@ -71,27 +71,30 @@ The platform is built using a microservices architecture where each service is r
 
 ---
 
-### 🔄 Workflow
+## Video Processing Workflow
 
-```text
-User Uploads Video
-        ↓
-Upload Service → Stores in R2
-        ↓
-Video Service → Saves metadata + emits Kafka event
-        ↓
-Processing Service (Consumer)
-        ↓
-Download video from R2
-        ↓
-FFmpeg processing (HLS generation)
-        ↓
-Upload processed files to R2
-        ↓
-Update Video Service (READY + manifest URL)
-        ↓
-Client streams video using HLS
-```
+```mermaid
+flowchart TD
+    A[Client Upload Request] --> B[API Gateway]
+
+    B --> C[Upload Service]
+    C -->|Pre-signed URL| D[Cloud Storage (R2/S3)]
+
+    D --> E[Video Service]
+    E -->|Save Metadata| F[(Database)]
+    E -->|Emit Event: video.uploaded| G[Kafka]
+
+    G --> H[Processing Service (Consumer)]
+    H --> I[Download Video from R2]
+
+    I --> J[FFmpeg Processing]
+    J -->|Generate HLS (m3u8 + segments)| K[Upload to R2]
+
+    K --> L[Video Service]
+    L -->|Update Status: READY + Manifest URL| F
+
+    L --> M[Client Streaming Request]
+    M --> N[HLS Playback]
 
 ---
 
