@@ -78,25 +78,25 @@ flowchart TD
     A[Client Upload Request] --> B[API Gateway]
 
     B --> C[Upload Service]
-    C -->|Pre-signed URL| D[Cloud Storage (R2/S3)]
+    C -->|Pre-signed URL| D[Cloud Storage - R2 or S3]
 
     D --> E[Video Service]
     E -->|Save Metadata| F[(Database)]
     E -->|Emit Event: video.uploaded| G[Kafka]
 
-    G --> H[Processing Service (Consumer)]
-    H --> I[Download Video from R2]
+    G --> H[Processing Service Consumer]
+    H --> I[Download Video from Storage]
 
     I --> J[FFmpeg Processing]
-    J -->|Generate HLS (m3u8 + segments)| K[Upload to R2]
+    J -->|Generate HLS segments| K[Upload to Storage]
 
     K --> L[Video Service]
-    L -->|Update Status: READY + Manifest URL| F
+    L -->|Update Status READY + Manifest URL| F
 
     L --> M[Client Streaming Request]
     M --> N[HLS Playback]
 
----
+```
 
 ## ⚙️ Tech Stack
 
